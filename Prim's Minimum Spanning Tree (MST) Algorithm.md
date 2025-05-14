@@ -22,105 +22,69 @@ To write a Python program for **Prim's Minimum Spanning Tree (MST)** algorithm.
 
 ## PYTHON PROGRAM
 
+```
 
 
-import sys # Library for INT_MAX
+import sys
 
-class Graph():
+class PrimMST:
+    def __init__(self, graph):
+        self.graph = graph
+        self.V = len(graph)
 
-def __init__(self, vertices):
-		
-  self.V = vertices
-	
-  self.graph = [[0 for column in range(vertices)]
-	
-  for row in range(vertices)]
+    def min_key(self, key, mstSet):
+        min_val = sys.maxsize
+        min_index = -1
+        for v in range(self.V):
+            if key[v] < min_val and not mstSet[v]:
+                min_val = key[v]
+                min_index = v
+        return min_index
 
-	
-def printMST(self, parent):
-	
-  print ("Edge   Weight")
-		
-  for i in range(1, self.V):
-			 
-  print (parent[i], "-", i, "  ",self.graph[i][parent[i]])
+    def prim_mst(self):
+        key = [sys.maxsize] * self.V
+        parent = [None] * self.V
+        key[0] = 0
+        mstSet = [False] * self.V
+        parent[0] = -1
 
-	
+        for _ in range(self.V):
+            u = self.min_key(key, mstSet)
+            mstSet[u] = True
 
-def minKey(self, key, mstSet):
+            for v in range(self.V):
+                if self.graph[u][v] and not mstSet[v] and self.graph[u][v] < key[v]:
+                    key[v] = self.graph[u][v]
+                    parent[v] = u
 
-		
-min = sys.maxsize
+        self.print_mst(parent)
 
-for v in range(self.V):
+    def print_mst(self, parent):
+        print("Edge \tWeight")
+        total_weight = 0
+        for i in range(1, self.V):
+            print(f"{parent[i]} - {i} \t{self.graph[i][parent[i]]}")
+            total_weight += self.graph[i][parent[i]]
+        print("Total weight of MST:", total_weight)
 
-   if key[v] < min and mstSet[v] == False:
-		
-   min = key[v]
-		
-   min_index = v
-		
-  return min_index
+graph = [
+    [0, 2, 0, 6, 0],
+    [2, 0, 3, 8, 5],
+    [0, 3, 0, 0, 7],
+    [6, 8, 0, 0, 9],
+    [0, 5, 7, 9, 0]
+]
 
-	
- def primMST(self):
+mst = PrimMST(graph)
+mst.prim_mst()
 
-		
-key = [sys.maxsize] * self.V
-		
-  parent = [None] * self.V # Array to store constructed MST
-
-  # Make key 0 so that this vertex is picked as first vertex
-
-  key[0] = 0
-
-  mstSet = [False] * self.V
-
-parent[0] = -1 # First node is always the root of
-
-for cout in range(self.V):
-
-			
-u=self.minKey(key,mstSet)
-
-   mstSet[u]=True
-
-   for v in range(self.V):
-
-if self.graph[u][v]>0 and mstSet[v]==False and key[v]>self.graph[u][v]:
-	
-key[v]=self.graph[u][v]
-	
-parent[v]=u
-
-			
-			
-self.printMST(parent)
-
-g = Graph(5)
-
-g.graph = [ [0, 2, 0, 6, 0],
-
-   [2, 0, 3, 8, 5],
-
-   [0, 3, 0, 0, 7],
-
-   [6, 8, 0, 0, 9],
-
-   [0, 5, 7, 9, 0]]
-
-g.primMST();
-
-
+```
 
 ## OUTPUT
 
-![image](https://github.com/user-attachments/assets/e1083a66-9840-4564-97e7-df9604e2b8ef)
+![image](https://github.com/user-attachments/assets/6e5921bc-aa61-45e5-9258-7122deb34403)
 
 
 
 ## RESULT
-Thus the Python program for **Prim's Minimum Spanning Tree (MST)** algorithm was created and executed successfully.
-
-
-
+Thus,the python program for **Prim's Minimum Spanning Tree (MST)** algorithm has been executed and verified successfully.
