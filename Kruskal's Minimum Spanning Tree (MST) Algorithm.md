@@ -19,114 +19,75 @@ To write a Python program for **Kruskal's algorithm** to find the Minimum Spanni
 
 ## PYTHON PROGRAM
 
-# Python program for Kruskal's algorithm to find
-# Minimum Spanning Tree of a given connected,
-# undirected and weighted graph
-
-from collections import defaultdict
-
-# Class to represent a graph
-
+```
 
 class Graph:
+    def __init__(self, vertices):
+        self.V = vertices
+        self.graph = []
 
-	def __init__(self, vertices):
-		self.V = vertices # No. of vertices
-		self.graph = [] # default dictionary
-		# to store graph
+    def add_edge(self, u, v, w):
+        self.graph.append([u, v, w])
 
-	# function to add an edge to graph
-	def addEdge(self, u, v, w):
-		self.graph.append([u, v, w])
+    def find(self, parent, i):
+        if parent[i] != i:
+            parent[i] = self.find(parent, parent[i])
+        return parent[i]
 
-	# A utility function to find set of an element i
-	# (uses path compression technique)
-	def find(self, parent, i):
-		if parent[i] == i:
-			return i
-		return self.find(parent, parent[i])
+    def union(self, parent, rank, xroot, yroot):
+        if rank[xroot] < rank[yroot]:
+            parent[xroot] = yroot
+        elif rank[xroot] > rank[yroot]:
+            parent[yroot] = xroot
+        else:
+            parent[yroot] = xroot
+            rank[xroot] += 1
 
-	# A function that does union of two sets of x and y
-	# (uses union by rank)
-	def union(self, parent, rank, x, y):
-		xroot = self.find(parent, x)
-		yroot = self.find(parent, y)
+    def kruskal(self):
+        result = []
+        self.graph.sort(key=lambda x: x[2])
 
-		# Attach smaller rank tree under root of
-		# high rank tree (Union by Rank)
-		if rank[xroot] < rank[yroot]:
-			parent[xroot] = yroot
-		elif rank[xroot] > rank[yroot]:
-			parent[yroot] = xroot
+        parent = []
+        rank = []
 
-		# If ranks are same, then make one as root
-		# and increment its rank by one
-		else:
-			parent[yroot] = xroot
-			rank[xroot] += 1
+        for node in range(self.V):
+            parent.append(node)
+            rank.append(0)
 
-	# The main function to construct MST using Kruskal's
-		# algorithm
-	def KruskalMST(self):
+        e = 0
+        i = 0
 
-		result = [] # This will store the resultant MST
-		
-		# An index variable, used for sorted edges
-		i = 0
-		
-		# An index variable, used for result[]
-		e = 0
+        while e < self.V - 1:
+            u, v, w = self.graph[i]
+            i += 1
+            x = self.find(parent, u)
+            y = self.find(parent, v)
 
-		# Step 1: Sort all the edges in
-		# non-decreasing order of their
-		# weight. If we are not allowed to change the
-		# given graph, we can create a copy of graph
-		self.graph = sorted(self.graph,
-							key=lambda item: item[2])
+            if x != y:
+                result.append([u, v, w])
+                e += 1
+                self.union(parent, rank, x, y)
 
-		parent = []
-		rank = []
+        print("Edges in the Minimum Spanning Tree:")
+        total_weight = 0
+        for u, v, w in result:
+            print(f"{u} -- {v} == {w}")
+            total_weight += w
+        print("Total weight of MST:", total_weight)
 
-		for node in range(self.V):
-		    parent.append(node)
-		    rank.append(0)
-		
-		while e<self.V-1:
-		    u,v,w=self.graph[i]
-		    i=i+1
-		    x=self.find(parent,u)
-		    y=self.find(parent,v)
-		    if x!=y:
-		        e=e+1
-		        result.append([u,v,w])
-		        self.union(parent,rank,x,y)
-		  
-		minimumCost=0
-		print("Edges in the constructed MST")
-		for u,v,weight in result:
-		    minimumCost+=weight
-		    print("%d -- %d == %d" % (u,v,weight))
-		print("Minimum Spanning Tree",minimumCost)
-		
-
-# Driver code
 g = Graph(4)
-g.addEdge(0, 1, 10)
-g.addEdge(0, 2, 6)
-g.addEdge(0, 3, 5)
-g.addEdge(1, 3, 15)
-g.addEdge(2, 3, 4)
+g.add_edge(0, 1, 10)
+g.add_edge(0, 2, 6)
+g.add_edge(0, 3, 5)
+g.add_edge(1, 3, 15)
+g.add_edge(2, 3, 4)
 
-# Function call
-g.KruskalMST()
+g.kruskal()
 
-
+```
 
 ## OUTPUT
-
-![image](https://github.com/user-attachments/assets/cbc64387-2b6f-4a35-8e82-741a350acb35)
-
-
+![image](https://github.com/user-attachments/assets/a45ec331-988c-41ce-9ced-a3542e5ba63a)
 
 ## RESULT
-Thus the Python program for **Kruskal's algorithm** to find the Minimum Spanning Tree (MST) of a given connected, undirected, and weighted graph was created and executed successfully.
+Thus,the python program for **Kruskal's algorithm** to find the Minimum Spanning Tree (MST) of a given connected, undirected, and weighted graph has been executed and verified successfully.
