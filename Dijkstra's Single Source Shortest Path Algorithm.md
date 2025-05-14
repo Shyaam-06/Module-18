@@ -20,99 +20,65 @@ Create a `sptSet[]` array (shortest path tree set) to keep track of vertices who
 
 ## PYTHON PROGRAM
 
+```
+
 
 import sys
 
-class Graph():
+class Dijkstra:
+    def __init__(self, graph):
+        self.graph = graph
+        self.V = len(graph)
 
-def __init__(self, vertices):
+    def min_distance(self, dist, sptSet):
+        min_val = sys.maxsize
+        min_index = -1
+        for v in range(self.V):
+            if dist[v] < min_val and not sptSet[v]:
+                min_val = dist[v]
+                min_index = v
+        return min_index
 
-		
-  self.V = vertices
-	
-  self.graph = [[0 for column in range(vertices)]
-					
-  for row in range(vertices)]
+    def dijkstra(self, src):
+        dist = [sys.maxsize] * self.V
+        dist[src] = 0
+        sptSet = [False] * self.V
 
-def printSolution(self, dist):
-		
-  print("Vertex   Distance from Source")
-	
-  for node in range(self.V):
-	
-   print(node, "           ", dist[node])
+        for _ in range(self.V):
+            u = self.min_distance(dist, sptSet)
+            sptSet[u] = True
+            for v in range(self.V):
+                if (self.graph[u][v] > 0 and not sptSet[v] and 
+                    dist[u] + self.graph[u][v] < dist[v]):
+                    dist[v] = dist[u] + self.graph[u][v]
 
+        self.print_solution(dist)
 
-def minDistance(self, dist, sptSet):
+    def print_solution(self, dist):
+        print("Vertex \tDistance from Source")
+        for i in range(self.V):
+            print(i, "\t", dist[i])
 
-		
-min = sys.maxsize
+graph = [
+    [0, 4, 0, 0, 0, 0, 0, 8, 0],
+    [4, 0, 8, 0, 0, 0, 0, 11, 0],
+    [0, 8, 0, 7, 0, 4, 0, 0, 2],
+    [0, 0, 7, 0, 9, 14, 0, 0, 0],
+    [0, 0, 0, 9, 0, 10, 0, 0, 0],
+    [0, 0, 4, 14, 10, 0, 2, 0, 0],
+    [0, 0, 0, 0, 0, 2, 0, 1, 6],
+    [8, 11, 0, 0, 0, 0, 1, 0, 7],
+    [0, 0, 2, 0, 0, 0, 6, 7, 0]
+]
 
+d = Dijkstra(graph)
+d.dijkstra(0)
 
-for u in range(self.V):
-			
-   if dist[u] < min and sptSet[u] == False:
-				
-  min = dist[u]
-				
-  min_index = u
-
-return min_index
-
-def dijkstra(self, src):
-	
- dist = [sys.maxsize] * self.V
-	
-dist[src]=0
-		
-  sptSet = [False] * self.V
-
-for cout in range(self.V):
-
-			
-x = self.minDistance(dist, sptSet)
-		
-  sptSet[x] = True
-
-for y in range(self.V):
-				
-  if self.graph[x][y] > 0 and sptSet[y]==False and 				dist[y] > dist[x] + self.graph[x][y]:
-	
-  dist[y] = dist[x] + self.graph[x][y]
-
-self.printSolution(dist)
-
-# Driver program
-
-g = Graph(9)
-
-g.graph = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
-	
-  [4, 0, 8, 0, 0, 0, 0, 11, 0],
-	
-  [0, 8, 0, 7, 0, 4, 0, 0, 2],
-	
-  [0, 0, 7, 0, 6, 14, 0, 0, 0],
-	
-  [0, 0, 0, 6, 0, 5, 0, 0, 0],
-	
-  [0, 0, 4, 14, 5, 0, 2, 0, 0],
-	
-  [0, 0, 0, 0, 0, 2, 0, 1, 6],
-	
-  [8, 11, 0, 0, 0, 0, 1, 0, 7],
-	
-  [0, 0, 2, 0, 0, 0, 6, 7, 0]
-	
-  ];
-
-g.dijkstra(0);
-
+```
 
 ## OUTPUT
-
-![image](https://github.com/user-attachments/assets/32f4634b-2eef-4903-854f-fc07490f5752)
+![image](https://github.com/user-attachments/assets/a3e45755-778f-44b3-8565-ca8e5b230d66)
 
 
 ## RESULT
-Thus the Python program for **Dijkstra's single source shortest path algorithm** was created and executed successfully.
+Thus, the python program for **Dijkstra's single source shortest path algorithm has been executed and verified successfully.
